@@ -17,7 +17,7 @@ export class UserService {
     return this.repo.find();
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: number): Promise<User> {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException('User not found');
     return user;
@@ -28,13 +28,13 @@ export class UserService {
     return await this.repo.save(user);
   }
 
-  async update(id: string, dto: UpdateUserDto): Promise<User> {
+  async update(id: number, dto: UpdateUserDto): Promise<User> {
     const user = await this.findById(id);
     const updated = this.factory.updateUser(user, dto);
     return await this.repo.save(updated);
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const user = await this.findById(id);
     user.is_active = false;
     await this.repo.save(user);

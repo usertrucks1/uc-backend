@@ -6,8 +6,8 @@ import {
 
 @Entity('working_days')
 export class WorkingDay {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   provider_id: string;

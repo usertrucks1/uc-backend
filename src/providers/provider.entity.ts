@@ -9,8 +9,8 @@ import {
 @Entity({ name: 'providers' })
 @Unique(['email'])
 export class Provider {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: 'varchar', length: 50 })
   first_name: string;

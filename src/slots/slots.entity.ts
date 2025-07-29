@@ -10,11 +10,10 @@ export enum SlotStatus {
   Hold = 3,
   Booked = 4,
 }
-
-@Entity()
+@Entity({ name: 'slots' })
 export class Slot {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ManyToOne(() => Provider, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'provider_id' })

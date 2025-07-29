@@ -19,8 +19,8 @@ export enum BookingStatus {
 @Entity({ name: 'bookings' })
 @Unique(['slot'])
 export class Booking {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ManyToOne(() => Slot, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'slot_id' })
