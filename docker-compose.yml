@@ -2,32 +2,20 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: urban_backend_app
     ports:
-      - '3000:3000'
+      - "3000:3000"
     depends_on:
       - db
-    volumes:
-      - .:/app
-    command: npm run start:dev
     environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=urban_db
-
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/urban_db
   db:
     image: postgres:15
-    container_name: urban_backend_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: urban_db
-    ports:
-      - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  pg_data:
