@@ -7,10 +7,11 @@ import { ProviderModule } from './providers/provider.module';
 import { WorkingDaysModule } from './working-days/working-day.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SlotsModule } from './slots/slots.module';
+import { BookingModule } from './bookings/bookings.module';
 
 
 @Module({
-  imports: [ConfigModule.forRoot(), ScheduleModule.forRoot(),DatabaseModule, UserModule, CategoryModule, ProviderModule, WorkingDaysModule, SlotsModule],
+  imports: [ConfigModule.forRoot(), ScheduleModule.forRoot(),DatabaseModule, UserModule, CategoryModule, ProviderModule, WorkingDaysModule, SlotsModule, BookingModule],
   controllers: [],
   providers: [],
 })

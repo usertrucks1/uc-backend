@@ -10,6 +10,6 @@ import { Category } from 'src/category/category.entity';
   imports: [TypeOrmModule.forFeature([Provider, Category])],
   providers: [ProviderSeeder, ProviderService],
   controllers: [ProviderController],
-  exports: [TypeOrmModule, ProviderService]
+  exports: []
 })
 export class ProviderModule {}

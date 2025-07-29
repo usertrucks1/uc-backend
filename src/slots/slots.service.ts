@@ -8,12 +8,18 @@ import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class SlotService {
-  constructor(
-    @InjectRepository(Slots)
-    private readonly slotRepository: Repository<Slots>,
-    private readonly bookingRepository: Repository<Booking>,
-    private readonly userRepository: Repository<User>,
-  ) { }
+  
+constructor(
+  @InjectRepository(Slots)
+  private readonly slotRepository: Repository<Slots>,
+
+  @InjectRepository(User)
+  private readonly userRepository: Repository<User>,
+
+  @InjectRepository(Booking)
+  private readonly bookingRepository: Repository<Booking>,
+) {}
+
 
   async getAvailableSlots(dto: GetAvailableSlotsDto) {
     const { provider_id, start_date } = dto;
