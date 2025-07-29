@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
