@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPhoneNumber, IsString, Matches } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPhoneNumber, IsString, Matches, Min } from 'class-validator';
 import { BookingStatus } from './bookings.entity';
 
 export class GetBookingsByPhoneDto {
@@ -25,4 +25,10 @@ export class GetBookingsByPhoneResponseDTO {
     id: number;
     name: string;
   };
+}
+
+export class CancelBookingRequestDTO {
+  @IsInt()
+  @Min(1)
+  booking_id: number;
 }
