@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsDateString, IsNumber } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from 'class-validator';
 
 export class GetAvailableSlotsDto {
   @IsNumber()
@@ -43,3 +43,20 @@ export class SlotResponseDto {
   charges_per_slot_rupee: number;
 }
 
+export class HoldSlotDto {
+  @IsNumber()
+  slot_id: number;
+}
+export class BookSlotDto {
+  @IsNotEmpty()
+  @IsString()
+  first_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  last_name: string;
+
+  @IsNotEmpty()
+  @IsPhoneNumber('IN')
+  phone_number: string;
+}

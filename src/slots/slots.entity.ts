@@ -25,7 +25,7 @@ export class Slots {
   @Column({ type: 'timestamp' })
   end_time: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: SlotStatus.Available })
   status: SlotStatus;
 
   @Column({ nullable: true, type: 'timestamp' })
