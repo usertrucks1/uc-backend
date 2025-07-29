@@ -1,3 +1,4 @@
+import { Provider } from 'src/providers/provider.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'categories' })
@@ -21,4 +23,7 @@ export class Category {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Provider, (provider) => provider.category)
+  providers: Provider[];
 }

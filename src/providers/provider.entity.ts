@@ -1,50 +1,43 @@
-import { Exclude } from 'class-transformer';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
 import { Category } from 'src/category/category.entity';
-import {
-  Entity, PrimaryGeneratedColumn, Column,
-  CreateDateColumn, UpdateDateColumn, JoinColumn,
-  OneToOne, Unique
-} from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'providers' })
-@Unique(['email'])
+@Unique(["email"])
 export class Provider {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ nullable: false })
   first_name: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ nullable: false })
   last_name: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({ nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 15 })
+  @Column()
   phone_number: string;
-
   @Exclude()
   @Column({ type: 'varchar', length: 255 })
   password_hash: string;
-
-  @OneToOne(() => Category)
+  @ManyToOne(() => Category, (category) => category.providers, { eager: false })
   @JoinColumn({ name: 'category_id' })
   category: Category;
-
   @Column({ type: 'time' })
   work_start_time: string;
 
   @Column({ type: 'time' })
   work_end_time: string;
 
-  @Column({ type: 'int', unsigned: true })
+  @Column()
   slot_duration_mins: number;
 
-  @Column({ type: 'int', unsigned: true })
+  @Column()
   charges_per_slot_rupee: number;
 
-  @Column({ default: true })
+    @Column({ default: true })
   is_active: boolean;
 
   @CreateDateColumn()

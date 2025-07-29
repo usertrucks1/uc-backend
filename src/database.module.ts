@@ -6,7 +6,7 @@ import { Category } from 'src/category/category.entity';
 import { Provider } from 'src/providers/provider.entity';
 import { Slot } from 'src/slots/slots.entity';
 import { User } from 'src/users/user.entity';
-import { WorkingDay } from 'src/working-days/working-days.entity';
+import { WorkingDay } from 'src/working-days/working-day.entity';
 
 @Module({
   imports: [
@@ -22,6 +22,6 @@ import { WorkingDay } from 'src/working-days/working-days.entity';
       synchronize: true,
     }),
   ],
-    exports:[TypeOrmModule]
+  exports: [TypeOrmModule]
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

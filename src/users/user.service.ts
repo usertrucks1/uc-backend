@@ -3,40 +3,39 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
-import { UserFactory } from './user.factory';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly repo: Repository<User>,
-    private readonly factory: UserFactory,
+    private readonly userRepo: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.repo.find();
+  async findAll(): Promise<User[]> {
+    return this.userRepo.find();
   }
 
   async findById(id: number): Promise<User> {
-    const user = await this.repo.findOne({ where: { id } });
-    if (!user) throw new NotFoundException('User not found');
+    const user = await this.userRepo.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
     return user;
   }
 
   async create(dto: CreateUserDto): Promise<User> {
-    const user = this.factory.createUser(dto);
-    return await this.repo.save(user);
+    const user = this.userRepo.create(dto); // creates a new instance
+    return this.userRepo.save(user);
   }
 
   async update(id: number, dto: UpdateUserDto): Promise<User> {
     const user = await this.findById(id);
-    const updated = this.factory.updateUser(user, dto);
-    return await this.repo.save(updated);
+    const updated = Object.assign(user, dto);
+    return this.userRepo.save(updated);
   }
 
   async remove(id: number): Promise<void> {
     const user = await this.findById(id);
-    user.is_active = false;
-    await this.repo.save(user);
+    await this.userRepo.remove(user);
   }
 }

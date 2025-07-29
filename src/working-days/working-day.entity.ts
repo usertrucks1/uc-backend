@@ -10,7 +10,7 @@ export class WorkingDay {
   id: number;
 
   @Column()
-  provider_id: string;
+  provider_id: number;
 
   @ManyToOne(() => Provider, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'provider_id' })
