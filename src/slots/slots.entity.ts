@@ -11,11 +11,11 @@ export enum SlotStatus {
   Booked = 4,
 }
 @Entity({ name: 'slots' })
-export class Slot {
+export class Slots {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Provider, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Provider, provider => provider.slots)
   @JoinColumn({ name: 'provider_id' })
   provider: Provider;
 
@@ -28,8 +28,8 @@ export class Slot {
   @Column({ type: 'int' })
   status: SlotStatus;
 
-  @Column({ type: 'timestamp', nullable: true })
-  slot_hold_time: Date;
+  @Column({ nullable: true, type: 'timestamp' })
+  slot_hold_time: Date | null;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Unique, OneToMany } from 'typeorm';
 import { Category } from 'src/category/category.entity';
 import { Exclude } from 'class-transformer';
+import { Slots } from 'src/slots/slots.entity';
 
 @Entity({ name: 'providers' })
 @Unique(["email"])
@@ -45,4 +46,7 @@ export class Provider {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Slots, slot => slot.provider)
+  slots: Slots[];
 }

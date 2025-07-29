@@ -5,9 +5,12 @@ import { DatabaseModule } from './database.module';
 import { CategoryModule } from './category/category.module';
 import { ProviderModule } from './providers/provider.module';
 import { WorkingDaysModule } from './working-days/working-day.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { SlotsModule } from './slots/slots.module';
+
 
 @Module({
-  imports: [ConfigModule.forRoot(),DatabaseModule, UserModule, CategoryModule, ProviderModule, WorkingDaysModule],
+  imports: [ConfigModule.forRoot(), ScheduleModule.forRoot(),DatabaseModule, UserModule, CategoryModule, ProviderModule, WorkingDaysModule, SlotsModule],
   controllers: [],
   providers: [],
 })

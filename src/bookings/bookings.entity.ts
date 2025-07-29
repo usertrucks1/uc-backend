@@ -1,4 +1,4 @@
-import { Slot } from 'src/slots/slots.entity';
+import { Slots } from 'src/slots/slots.entity';
 import { User } from 'src/users/user.entity';
 import {
   Entity,
@@ -17,14 +17,14 @@ export enum BookingStatus {
 }
 
 @Entity({ name: 'bookings' })
-@Unique(['slot'])
+@Unique(['slots'])
 export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Slot, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Slots, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'slot_id' })
-  slot: Slot;
+  slots: Slots;
 
   @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })

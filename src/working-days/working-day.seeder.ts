@@ -33,7 +33,7 @@ export class WorkingDaySeeder {
   }
 
   private generateWorkingDays(providerId: number): WorkingDay[] {
-    const defaultDays = [1, 2, 3, 4, 5, 6, 7]; // Sunday to Thursday
+    const defaultDays = [1, 2, 3, 4, 5, 6]; // Sunday to Thursday
 
     return defaultDays.map((dayOfWeek) => {
       const day = new WorkingDay();
