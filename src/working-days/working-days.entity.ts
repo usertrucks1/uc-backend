@@ -4,17 +4,23 @@ import {
   CreateDateColumn, UpdateDateColumn, JoinColumn
 } from 'typeorm';
 
-@Entity()
+@Entity('working_days')
 export class WorkingDay {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Provider)
+  @Column()
+  provider_id: string;
+
+  @ManyToOne(() => Provider, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'provider_id' })
   provider: Provider;
 
-  @Column()
-  day_of_week: number; // 1 to 7
+  @Column({
+    type: 'int',
+    comment: '1 (Sunday) to 7 (Saturday)',
+  })
+  day_of_week: number;
 
   @CreateDateColumn()
   created_at: Date;

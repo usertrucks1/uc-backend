@@ -1,28 +1,31 @@
+import { Exclude } from 'class-transformer';
 import { Category } from 'src/category/category.entity';
 import {
   Entity, PrimaryGeneratedColumn, Column,
   CreateDateColumn, UpdateDateColumn, JoinColumn,
-  OneToOne
+  OneToOne, Unique
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'providers' })
+@Unique(['email'])
 export class Provider {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50 })
   first_name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50 })
   last_name: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 15 })
   phone_number: string;
 
-  @Column()
+  @Exclude()
+  @Column({ type: 'varchar', length: 255 })
   password_hash: string;
 
   @OneToOne(() => Category)
@@ -30,15 +33,15 @@ export class Provider {
   category: Category;
 
   @Column({ type: 'time' })
-  work_start_time: Date;
+  work_start_time: string;
 
   @Column({ type: 'time' })
-  work_end_time: Date;
+  work_end_time: string;
 
-  @Column()
+  @Column({ type: 'int', unsigned: true })
   slot_duration_mins: number;
 
-  @Column()
+  @Column({ type: 'int', unsigned: true })
   charges_per_slot_rupee: number;
 
   @Column({ default: true })

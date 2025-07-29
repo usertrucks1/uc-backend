@@ -1,20 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column, Entity, PrimaryGeneratedColumn,
+  CreateDateColumn, UpdateDateColumn, Index
+} from 'typeorm';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ length: 100 })
   first_name: string;
 
-  @Column()
+  @Column({ length: 100 })
   last_name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 150 })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 15 })
   phone_number: string;
 
   @Column()

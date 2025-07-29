@@ -1,26 +1,40 @@
 import { Slot } from 'src/slots/slots.entity';
 import { User } from 'src/users/user.entity';
 import {
-  Entity, PrimaryGeneratedColumn, Column,
-  CreateDateColumn, UpdateDateColumn, JoinColumn,
-  OneToOne
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  JoinColumn,
+  ManyToOne,
+  Unique,
 } from 'typeorm';
 
-@Entity()
+export enum BookingStatus {
+  CONFIRMED = 1,
+  CANCELLED = 2,
+}
+
+@Entity({ name: 'bookings' })
+@Unique(['slot'])
 export class Booking {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Slot)
+  @ManyToOne(() => Slot, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'slot_id' })
   slot: Slot;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ type: 'int' })
-  status: number; // 1: Confirmed, 2: Cancelled
+  @Column({ type: 'int', default: BookingStatus.CONFIRMED })
+  status: BookingStatus;
+
+  @Column({ type: 'timestamp', nullable: false })
+  booking_time: Date;
 
   @CreateDateColumn()
   created_at: Date;
