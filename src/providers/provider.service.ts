@@ -12,12 +12,16 @@ export class ProviderService {
   ) { }
 
   async getAllProviders(query: GetProvidersQueryDto) {
-    const { search, page = 1, limit } = query;
+    const { search, page, limit, category_id } = query;
 
     const queryBuilder = this.providerRepo
-  .createQueryBuilder('provider')
-  .leftJoinAndSelect('provider.category', 'category') // fetch category details
-  .orderBy('provider.id', 'ASC');
+      .createQueryBuilder('provider')
+      .leftJoinAndSelect('provider.category', 'category') // fetch category details
+      .orderBy('provider.id', 'ASC');
+
+    if (category_id) {
+      queryBuilder.andWhere('provider.category_id = :category_id', { category_id });
+    }
 
 
     if (search) {

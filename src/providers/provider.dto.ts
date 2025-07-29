@@ -18,6 +18,11 @@ export class GetProvidersQueryDto {
   @IsInt()
   @Min(1)
   limit?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  category_id?: number;
 }
 
 export class CategoryResponseDto {
