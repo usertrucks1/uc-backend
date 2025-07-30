@@ -23,7 +23,7 @@ export class SlotController {
     };
   }
 
-  @Post(':id/book')
+  @Post('book/:id')
   async bookSlot(
     @Param('id', ParseIntPipe) slotId: number,
     @Body() dto: BookSlotDto,
