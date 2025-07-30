@@ -58,12 +58,21 @@ export class SlotService {
       throw new NotFoundException('Slot not found');
     }
 
-    if (slot.status !== SlotStatus.Available) {
+    if (dto.is_hold && slot.status !== SlotStatus.Available) {
       throw new BadRequestException('Slot is not available');
+    }else if(!dto.is_hold && slot.status !== SlotStatus.Hold) {
+      throw new BadRequestException('Slot is not hold, cannot be freed');
     }
 
-    slot.status = SlotStatus.Hold;
-    slot.slot_hold_time = new Date();
+    if(dto.is_hold){
+      slot.status = SlotStatus.Hold;
+      slot.slot_hold_time = new Date();
+    }else{
+      slot.status = SlotStatus.Available;
+      slot.slot_hold_time = null
+    }
+
+    
 
     return await this.slotRepository.save(slot);
   }

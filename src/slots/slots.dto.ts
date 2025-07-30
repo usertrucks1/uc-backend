@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer';
-import { IsDateString, IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from 'class-validator';
 
 export class GetAvailableSlotsDto {
   @IsNumber()
@@ -46,6 +46,9 @@ export class SlotResponseDto {
 export class HoldSlotDto {
   @IsNumber()
   slot_id: number;
+  
+  @IsBoolean()
+  is_hold: boolean;
 }
 export class BookSlotDto {
   @IsNotEmpty()
