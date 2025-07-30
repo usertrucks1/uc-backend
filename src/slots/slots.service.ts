@@ -8,17 +8,17 @@ import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class SlotService {
-  
-constructor(
-  @InjectRepository(Slots)
-  private readonly slotRepository: Repository<Slots>,
 
-  @InjectRepository(User)
-  private readonly userRepository: Repository<User>,
+  constructor(
+    @InjectRepository(Slots)
+    private readonly slotRepository: Repository<Slots>,
 
-  @InjectRepository(Booking)
-  private readonly bookingRepository: Repository<Booking>,
-) {}
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+
+    @InjectRepository(Booking)
+    private readonly bookingRepository: Repository<Booking>,
+  ) { }
 
 
   async getAvailableSlots(dto: GetAvailableSlotsDto) {
@@ -49,7 +49,10 @@ constructor(
   }
 
   async holdSlot(dto: HoldSlotDto) {
-    const slot = await this.slotRepository.findOne({ where: { id: dto.slot_id } });
+    const slot = await this.slotRepository.findOne({
+      where: { id: dto.slot_id },
+      relations: ['provider', 'provider.category'],
+    });
 
     if (!slot) {
       throw new NotFoundException('Slot not found');
@@ -62,9 +65,7 @@ constructor(
     slot.status = SlotStatus.Hold;
     slot.slot_hold_time = new Date();
 
-    await this.slotRepository.save(slot);
-
-    return { message: 'Slot held successfully', slot_id: slot.id };
+    return await this.slotRepository.save(slot);
   }
 
   async bookSlot(slotId: number, dto: BookSlotDto) {
