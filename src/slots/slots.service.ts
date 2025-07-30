@@ -68,51 +68,49 @@ export class SlotService {
     return await this.slotRepository.save(slot);
   }
 
-  async bookSlot(slotId: number, dto: BookSlotDto) {
-    const slot = await this.slotRepository.findOne({
-      where: { id: slotId },
-      relations: ['provider'],
-    });
+async bookSlot(slotId: number, dto: BookSlotDto) {
+  const slot = await this.slotRepository.findOne({
+    where: { id: slotId },
+    relations: ['provider', 'provider.category'],
+  });
 
-    if (!slot) throw new NotFoundException('Slot not found');
-    if (slot.status !== SlotStatus.Hold) {
-      throw new BadRequestException('Slot is not in hold state');
-    }
-
-    // Check or create user
-    let user = await this.userRepository.findOne({
-      where: { phone_number: dto.phone_number },
-    });
-
-    if (!user) {
-      user = this.userRepository.create({
-        first_name: dto.first_name,
-        last_name: dto.last_name,
-        phone_number: dto.phone_number,
-      });
-      user = await this.userRepository.save(user);
-    }
-
-    // Create booking
-    const booking = this.bookingRepository.create({
-      slots: slot,
-      user,
-      status: BookingStatus.CONFIRMED,
-      booking_time: new Date(),
-    });
-
-    await this.bookingRepository.save(booking);
-
-    // Update slot status
-    slot.status = SlotStatus.Booked;
-    slot.slot_hold_time = null;
-    await this.slotRepository.save(slot);
-
-    return {
-      message: 'Slot booked successfully',
-      slot_id: slot.id,
-      booking_id: booking.id,
-    };
+  if (!slot) throw new NotFoundException('Slot not found');
+  if (slot.status !== SlotStatus.Hold) {
+    throw new BadRequestException('Slot is not in hold state');
   }
+
+  let user = await this.userRepository.findOne({
+    where: { phone_number: dto.phone_number },
+  });
+
+  if (!user) {
+    user = this.userRepository.create({
+      first_name: dto.first_name,
+      last_name: dto.last_name,
+      phone_number: dto.phone_number,
+    });
+    user = await this.userRepository.save(user);
+  }
+
+  const booking = this.bookingRepository.create({
+    slots: slot,
+    user,
+    status: BookingStatus.CONFIRMED,
+    booking_time: new Date(),
+  });
+
+  const savedBooking = await this.bookingRepository.save(booking);
+
+  // Update slot status
+  slot.status = SlotStatus.Booked;
+  slot.slot_hold_time = null;
+  await this.slotRepository.save(slot);
+
+  // Attach slot and user to savedBooking for response
+  savedBooking.slots = slot;
+  savedBooking.user = user;
+
+  return savedBooking
+}
 
 }

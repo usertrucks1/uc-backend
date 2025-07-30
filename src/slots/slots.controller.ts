@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { SlotService } from './slots.service';
-import { BookSlotDto, GetAvailableSlotsDto, HoldSlotDto, SlotDetailDto, SlotResponseDto } from './slots.dto';
+import { BookingDetailDto, BookSlotDto, GetAvailableSlotsDto, HoldSlotDto, SlotDetailDto, SlotResponseDto } from './slots.dto';
 import { plainToInstance } from 'class-transformer';
 
 @Controller('slots')
@@ -28,7 +28,10 @@ export class SlotController {
     @Param('id', ParseIntPipe) slotId: number,
     @Body() dto: BookSlotDto,
   ) {
-    return this.slotService.bookSlot(slotId, dto);
+    
+    return plainToInstance(BookingDetailDto, this.slotService.bookSlot(slotId, dto), {
+    excludeExtraneousValues: true,
+  });
   }
 
 }

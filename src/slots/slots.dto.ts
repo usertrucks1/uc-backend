@@ -122,3 +122,34 @@ export class SlotDetailDto {
   @Expose()
   provider: ProviderDto;
 }
+
+export class UserDto {
+  @Expose() id: number;
+  @Expose() first_name: string;
+  @Expose() last_name: string;
+  @Expose() phone_number: string;
+}
+
+export class SlotDto {
+  @Expose() id: number;
+  @Expose() start_time: string;
+  @Expose() end_time: string;
+  @Expose() status: string;
+
+  @Expose() slot_hold_time: string;
+
+  @Type(() => ProviderDto)
+  @Expose() provider: ProviderDto;
+}
+
+export class BookingDetailDto {
+  @Expose() id: number;
+  @Expose() booking_time: Date;
+  @Expose() status: string;
+
+  @Type(() => UserDto)
+  @Expose() user: UserDto;
+
+  @Type(() => SlotDto)
+  @Expose() slots: SlotDto;
+}
