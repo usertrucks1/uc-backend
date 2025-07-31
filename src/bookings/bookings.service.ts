@@ -50,9 +50,9 @@ export class BookingService {
   }
 
 
-  async cancelBooking(dto: CancelBookingRequestDTO): Promise<string> {
+  async cancelBooking(booking_id: number): Promise<string> {
     const booking = await this.bookingRepo.findOne({
-      where: { id: dto.booking_id },
+      where: { id: booking_id },
       relations: { slots: true },
     });
 
